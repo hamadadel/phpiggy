@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use  Framework\TemplateEngine;
+use App\Config\Paths;
+
 class HomeController
 {
+    private TemplateEngine $view;
+
+    public function __construct()
+    {
+        $this->view = new TemplateEngine(Paths::VIEW);
+    }
     public function index()
     {
-        echo 'home page';
+
+        echo  $this->view->render('index', ['title' => 'home page']);
     }
 }
