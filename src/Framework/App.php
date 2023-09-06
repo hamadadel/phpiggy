@@ -18,14 +18,16 @@ class App
 
     public function run()
     {
-        echo 'application is ready to run';
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $method = $_SERVER['REQUEST_METHOD'];
+        $this->router->dispatch($path, $method);
     }
 
-    public function get(string $path)
+    public function get(string $path, array $controller)
     {   /** 
         * if we wish to invoke a method from an instance stored in a 
         * private property we must define another method for doing so
         */
-        $this->router->add($path, 'GET');
+        $this->router->add($path, 'GET', $controller);
     }
 }
