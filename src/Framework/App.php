@@ -20,4 +20,12 @@ class App
     {
         echo 'application is ready to run';
     }
+
+    public function get(string $path)
+    {   /** 
+        * if we wish to invoke a method from an instance stored in a 
+        * private property we must define another method for doing so
+        */
+        $this->router->add($path, 'GET');
+    }
 }
