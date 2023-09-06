@@ -18,7 +18,12 @@ class App
 
     public function run()
     {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        /**
+         * we typed casting tto string because if parse_url() returned boolean value 
+         * this will result in fatal error 
+         */
+        $path = (string) parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
         $method = $_SERVER['REQUEST_METHOD'];
         $this->router->dispatch($path, $method);
     }

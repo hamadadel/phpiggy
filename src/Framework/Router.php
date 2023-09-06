@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Framework;
 
@@ -20,7 +20,7 @@ class Router
     private function normalizePath(string $path): string
     {
         $path = trim($path, '/');
-        $path = '/'.$path.'/';
+        $path = '/' . $path . '/';
         return preg_replace('#[/]{2,}#', '/', $path);
     }
 
@@ -29,15 +29,18 @@ class Router
         $path = $this->normalizePath($path);
         $method = strtoupper($method);
 
-        foreach($this->routes as $route)
-         {
-            if(
-            ! preg_match("#^{$route['path']}$#", $path) || 
-            $route['method'] !== $method
-            ) 
+        foreach ($this->routes as $route) {
+            if (
+                !preg_match("#^{$route['path']}$#", $path) ||
+                $route['method'] !== $method
+            )
                 continue;
 
-            echo 'route matched';
-         }
+            [$controller, $method] = $route['controller'];
+            $controllerInstance = new $controller;
+            if (class_exists($controller) && is_callable($controllerInstance->$method())) {
+                $controllerInstance->$method();
+            }
+        }
     }
 }
