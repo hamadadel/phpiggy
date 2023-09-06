@@ -20,4 +20,9 @@ class HomeController
 
         echo  $this->view->render('index', ['title' => 'home page']);
     }
+
+    public function about()
+    {
+        echo $this->view->render('about');
+    }
 }

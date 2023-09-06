@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 /**
  * the purpose of this file is to load and configure 
@@ -20,6 +21,7 @@ use App\Controllers\HomeController;
 $app = new App;
 
 $app->get('/', [HomeController::class, 'index']);
+$app->get('/about', [HomeController::class, 'about']);
 
 $app->get('/auth/register', ['App\Controllers\Auth', 'register']);
 return $app;

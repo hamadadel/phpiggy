@@ -16,17 +16,24 @@ class TemplateEngine
         if (!empty($data))
             extract($data);
 
-        if (strpos($template, '.') !== false) {
-            $template = str_replace('.', '/', $template);
-        }
+
         ob_start();
 
-        include $this->basePath . $template . '.php';
+        include $this->resolve($template);
 
         $output = ob_get_contents();
 
         ob_end_clean();
 
         return $output;
+    }
+
+    public function resolve(string $path)
+    {
+        if (strpos($path, '.') !== false) {
+            $path = str_replace('.', '/', $path);
+        }
+
+        return $this->basePath . $path . '.php';
     }
 }
