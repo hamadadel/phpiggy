@@ -18,11 +18,11 @@ class HomeController
     public function index()
     {
 
-        echo  $this->view->render('index', ['title' => 'home page']);
+        echo  $this->view->render('index', ['title' => 'Home']);
     }
 
     public function about()
     {
-        echo $this->view->render('about');
+        echo $this->view->render('about', ['title' => 'About']);
     }
 }
