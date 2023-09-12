@@ -16,8 +16,10 @@ ini_set('xdebug.var_display_max_data', 1024);
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Framework\App;
+use App\Config\Paths;
 use function  App\Config\registerRoutes;
-$app = new App;
+
+$app = new App(Paths::SOURCE.'App/container-definitions.php');
 
 registerRoutes($app);
 

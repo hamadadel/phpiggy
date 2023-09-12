@@ -1,13 +1,19 @@
 <?php
+
+/**
+ * The job of the container
+ * Is to store a list of instructions for creating instances "definitions"
+ */
 declare(strict_types = 1);
+
 namespace Framework;
 
 class Container
 {
-    private array $definitions;
+    private array $definitions = [];
 
-    public function addDefinition(array $definition)
+    public function addDefinitions(array $definition): void
     {
-        if($definition)
+        var_dump($definition);
     }
 }
