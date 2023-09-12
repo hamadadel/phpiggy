@@ -7,6 +7,7 @@ namespace Framework;
 class Router
 {
     private array $routes = [];
+    private array $middleware = [];
 
     public function add(string $path, string $method, array $controller)
     {
@@ -42,5 +43,10 @@ class Router
                 $controllerInstance->$method();
             }
         }
+    }
+
+    public function addMiddleware(string $middleware)
+    {
+        $this->middleware[] = $middleware;
     }
 }

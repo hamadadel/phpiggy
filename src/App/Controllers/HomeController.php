@@ -14,7 +14,7 @@ class HomeController
     }
     public function index()
     {
-        echo  $this->view->render('index', ['title' => 'Home']);
+        echo  $this->view->render('index');
     }
 
     public function about()
