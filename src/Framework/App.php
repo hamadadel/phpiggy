@@ -12,7 +12,7 @@ class App
     private Router $router;
     private Container $container;
     
-    public function __construct(string $definitionsPath)
+    public function __construct(string $definitionsPath = null)
     {
         $this->router = new Router;
         $this->container =  new Container();

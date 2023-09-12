@@ -7,7 +7,7 @@ namespace Framework;
 class TemplateEngine
 {
 
-    public function __construct(private string $basePath)
+    public function __construct(private string $viewsPath)
     {
     }
 
@@ -15,7 +15,6 @@ class TemplateEngine
     {
         if (!empty($data))
             extract($data);
-
 
         ob_start();
 
@@ -28,12 +27,12 @@ class TemplateEngine
         return $output;
     }
 
-    public function resolve(string $path)
+    private function resolve(string $path): string
     {
         if (strpos($path, '.') !== false) {
             $path = str_replace('.', '/', $path);
         }
 
-        return $this->basePath . $path . '.php';
+        return $this->viewsPath . $path . '.php';
     }
 }

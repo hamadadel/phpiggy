@@ -14,6 +14,6 @@ class Container
 
     public function addDefinitions(array $definition): void
     {
-        var_dump($definition);
+        $this->definitions = [...$this->definitions, ... $definition];
     }
 }
