@@ -8,6 +8,8 @@ declare(strict_types = 1);
 
 namespace Framework;
 
+use ReflectionClass;
+
 class Container
 {
     private array $definitions = [];
@@ -15,5 +17,14 @@ class Container
     public function addDefinitions(array $definition): void
     {
         $this->definitions = [...$this->definitions, ... $definition];
+    }
+
+    public function resolve( string $controller)
+    {
+        $reflectionClass = new ReflectionClass($controller);
+        if (! $reflectionClass->isInstantiable()) {
+            dd($reflectionClass);
+        }
+        return $controller;
     }
 }
