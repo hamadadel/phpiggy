@@ -6,6 +6,7 @@ namespace Framework;
 
 class TemplateEngine
 {
+    private array $globalTemplateData = [];
 
     public function __construct(private string $viewsPath)
     {
@@ -13,8 +14,11 @@ class TemplateEngine
 
     public function render(string $template, array $data = [])
     {
+        var_dump($this);
         if (!empty($data))
             extract($data);
+
+        extract($this->globalTemplateData, EXTR_SKIP);// prevent overwritten variables
 
         ob_start();
 
@@ -34,5 +38,10 @@ class TemplateEngine
         }
 
         return $this->viewsPath . $path . '.php';
+    }
+
+    public function addToGlobal(string $key, mixed $value): void
+    {
+        $this->globalTemplateData[$key] = $value;
     }
 }
