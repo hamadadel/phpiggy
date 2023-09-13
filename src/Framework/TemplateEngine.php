@@ -14,7 +14,6 @@ class TemplateEngine
 
     public function render(string $template, array $data = [])
     {
-        var_dump($this);
         if (!empty($data))
             extract($data);
 

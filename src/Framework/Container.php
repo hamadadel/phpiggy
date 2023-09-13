@@ -14,6 +14,7 @@ use ReflectionClass;
 class Container
 {
     private array $definitions = [];
+    private array $resolved = [];
 
     public function addDefinitions(array $definition): void
     {
@@ -22,6 +23,7 @@ class Container
 
     public function resolve( string $controller)
     {
+        $dependencies = [];
         $reflectionClass = new ReflectionClass($controller);
         if (! $reflectionClass->isInstantiable())
             throw new ContainerException("class {$controller} is not Instantiable");
@@ -34,28 +36,36 @@ class Container
         if (!$parameters)
             return new $controller;
 
-        $dependencies = $this->extractDependencies($parameters, $controller);
+      foreach ($parameters as $param)
+      {
+          $name = $param->getName();
+          $type = $param->getType();
+          if (! $type)
+              throw new ContainerException("Failed to resolve class {$controller}, parameter {$name} is missing a type hint");
+
+          if (! $type instanceof \ReflectionNamedType || $type->isBuiltin())
+              throw new ContainerException("Failed to resolve class {$controller}, invalid parameter name.");
+
+          if (! array_key_exists($type->getName(), $this->definitions))
+              throw new ContainerException("Class ${$controller} does not exist in the Container.");
+
+
+          $dependencies[] = $this->get($type->getName());
+      }
 
         return $reflectionClass->newInstanceArgs($dependencies);
     }
 
-    private function extractDependencies(array $parameters, string $controller): array
+    private function get(string $key)
     {
-        $dependencies = [];
-        foreach ($parameters as $parameter) {
-            $name = $parameter->getName();
-            $type = $parameter->getType();
-            if (! $type)
-                throw new ContainerException("Failed to resolve class {$controller}, parameter {$name} is missing a type hint");
+        if (!array_key_exists($key, $this->definitions))
+            throw new ContainerException("Class {$key} does not exist in Container.");
+       if (array_key_exists($key, $this->resolved))
+           return $this->resolved[$key];
+       $factory = $this->definitions[$key];
+       $dependency = $factory();
 
-            if (! $type instanceof \ReflectionNamedType || $type->isBuiltin())
-                throw new ContainerException("Failed to resolve class {$controller}, invalid parameter name.");
-
-            if (!array_key_exists($type->getName(), $this->definitions))
-                throw new ContainerException("Class ${$controller} does not exist in the Container.");
-
-            $dependencies[]= $this->definitions[$type->getName()]();
-        }
-        return $dependencies;
+       $this->resolved[$key] = $dependency;
+       return $dependency;
     }
 }

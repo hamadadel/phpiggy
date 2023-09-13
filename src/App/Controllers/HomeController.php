@@ -10,7 +10,9 @@ class HomeController
 {
     public function __construct(private TemplateEngine $view)
     {
+        var_dump($this->view);
     }
+
     public function index()
     {
         echo  $this->view->render('index');
@@ -18,6 +20,6 @@ class HomeController
 
     public function about()
     {
-        echo $this->view->render('about');
+        echo $this->view->render('about', ['title'=>'About']);
     }
 }
