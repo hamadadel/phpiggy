@@ -17,7 +17,7 @@ class TemplateEngine
         if (!empty($data))
             extract($data);
 
-        extract($this->globalTemplateData, EXTR_SKIP);// prevent overwritten variables
+        extract($this->globalTemplateData, EXTR_SKIP); // prevent overwritten variables
 
         ob_start();
 
