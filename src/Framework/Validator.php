@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Framework;
 
 use Framework\Contracts\RuleInterface;
+use Framework\Exceptions\ValidationException;
 
 class Validator
 {
@@ -23,9 +24,10 @@ class Validator
                 $ruleInstance = $this->rules[$rule];
                 if ($ruleInstance->validate($data, $field, []))
                     continue;
-                $errors[] = $ruleInstance->getMessage($data, $field, []);
+                $errors[][$field] = $ruleInstance->getMessage($data, $field, []);
             }
         }
-        var_dump($errors);
+        if(count($errors))
+            throw new ValidationException();
     }
 }
