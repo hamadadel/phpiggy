@@ -17,7 +17,9 @@ class TemplateDataMiddleware implements MiddlewareInterface
     {
         $this->view->addToGlobal('title', 'Expenses Tracking');
         $this->view->addToGlobal('errors', $_SESSION['errors'] ?? []);
+        $this->view->addToGlobal('old', $_SESSION['oldFormData'] ?? []);
         unset($_SESSION['errors']);
+        unset($_SESSION['oldFormData']);
         $next();
     }
 }
