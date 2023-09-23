@@ -16,18 +16,27 @@ class Validator
         $this->rules[$alias] = $rule;
     }
 
+
+
     public function validate(array $data, array $fields)
     {
         $errors = [];
+        $ruleParameters = [];
         foreach ($fields as $field => $rules) {
             foreach ($rules as $rule) {
+
+                if (str_contains($rule, ':')) {
+                    [$rule, $ruleParameter] = explode(':', $rule);
+                    $ruleParameters[$rule] = $ruleParameter;
+                }
+
                 $ruleInstance = $this->rules[$rule];
-                if ($ruleInstance->validate($data, $field, []))
+                if ($ruleInstance->validate($data, $field, $ruleParameters))
                     continue;
-                $errors[][$field] = $ruleInstance->getMessage($data, $field, []);
+                $errors[$field] = [$ruleInstance->getMessage($data, $field, $ruleParameters)];
             }
         }
-        if(count($errors))
-            throw new ValidationException();
+        if (count($errors))
+            throw new ValidationException($errors);
     }
 }

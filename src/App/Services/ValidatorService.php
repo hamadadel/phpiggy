@@ -6,7 +6,7 @@ namespace App\Services;
 
 use Framework\Validator;
 
-use Framework\Rules\{Required};
+use Framework\Rules\{Required, Email, Min, Max};
 
 
 class ValidatorService
@@ -16,14 +16,17 @@ class ValidatorService
     public function __construct()
     {
         $this->validator = new Validator;
-        $this->validator->addRule('required', new Required());
+        $this->validator->addRule('required', new Required);
+        $this->validator->addRule('email', new Email);
+        $this->validator->addRule('min', new Min);
+        $this->validator->addRule('max', new Max);
     }
 
     public function validate(array $data)
     {
         $this->validator->validate($data, [
-            'email' => ['required'],
-            'age' => ['required'],
+            'email' => ['required', 'email'],
+            'age' => ['required', 'min:18', 'max:60'],
             'country' => ['required'],
             'socialMediaURL' => ['required'],
             'password' => ['required'],
