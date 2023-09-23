@@ -1,12 +1,14 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Framework\Exceptions;
 
 use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 
 class ValidationException extends \RuntimeException
 {
-    public function __construct(int $code = 422)
+    public function __construct(public array $errors, int $code = 422)
     {
         parent::__construct(code: $code);
     }
