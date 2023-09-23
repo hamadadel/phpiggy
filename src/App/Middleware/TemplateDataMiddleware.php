@@ -16,6 +16,8 @@ class TemplateDataMiddleware implements MiddlewareInterface
     public function process(callable $next)
     {
         $this->view->addToGlobal('title', 'Expenses Tracking');
+        $this->view->addToGlobal('errors', $_SESSION['errors'] ?? []);
+        unset($_SESSION['errors']);
         $next();
     }
 }
