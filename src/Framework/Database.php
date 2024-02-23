@@ -10,7 +10,10 @@ class Database
         try {
             $dsn = $driver . ':'.http_build_query($config, arg_separator: ';');
             try {
-                $this->connection = new PDO($dsn, $user, $password);
+                $this->connection = new PDO($dsn, $user, $password, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                ]);
             }catch (PDOException $e) {
                 die("unable to connect to database");
             }
