@@ -8,6 +8,9 @@
       "email": "hamadwebdeveloper@gmail.com"
     }
   ],
+  "scripts": {
+    "phpiggy": "php cli.php"
+  },
   "require": {},
   "autoload": {
     "psr-4": {
