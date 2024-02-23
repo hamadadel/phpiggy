@@ -1,4 +1,5 @@
 .idea
 /vendor
 /notes.txt
+.env
 chaining-callback.php

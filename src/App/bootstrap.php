@@ -17,7 +17,11 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Framework\App;
 use App\Config\Paths;
+use Dotenv\Dotenv;
+
 use function  App\Config\{registerRoutes, registerMiddleware};
+
+$dotenv = Dotenv::createImmutable(PATHS::ROOT)->load();
 
 $app = new App(Paths::SOURCE.'App/container-definitions.php');
 
